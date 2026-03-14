@@ -1,0 +1,6 @@
+.env
+venv/
+__pycache__/
+*.pyc
+temp_*
+test_audio_1.mp3
