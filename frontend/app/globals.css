@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f2f7f4;
+  --bg-accent: #e3f0ea;
+  --surface: #ffffff;
+  --surface-soft: #f7faf8;
+  --text: #14211b;
+  --muted: #526159;
+  --primary: #0f766e;
+  --primary-strong: #0d5f59;
+  --ring: #99d2c8;
+  --border: #d8e7e1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 600px at 8% -5%, var(--bg-accent), transparent 60%),
+    radial-gradient(700px 400px at 96% 0%, #dceee8, transparent 58%),
+    var(--bg);
+}
+
+.glass-card {
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 14px 45px -30px rgba(14, 35, 28, 0.45);
+}
+
+.elevated-card {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 16px 40px -30px rgba(17, 40, 31, 0.5);
+}
+
+.field {
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+.field:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+  color: #fff;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.04);
+}
+
+.btn-muted {
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+.btn-muted:hover {
+  background: #eef5f2;
+}
