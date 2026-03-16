@@ -1,26 +1,52 @@
 # VoiceScript AI
 
-VoiceScript AI is a full-stack speech-to-text web application that lets users record or upload audio, transcribe it with Deepgram, and store transcript history in Supabase.
+<p align="center">
+  A full-stack speech-to-text platform for recording, uploading, transcribing, and managing personal transcript history.
+</p>
 
-The project uses:
+<p align="center">
+  <a href="https://voicescript-ai.vercel.app/login"><strong>Live Demo</strong></a>
+</p>
 
-- `Next.js` for the frontend
-- `Flask` for the backend API
-- `Supabase Auth` for authentication
-- `Supabase Database + Storage` for transcript and audio persistence
-- `Deepgram` for audio transcription
+<p align="center">
+  <img alt="Frontend" src="https://img.shields.io/badge/Frontend-Next.js-111111?style=for-the-badge&logo=nextdotjs&logoColor=white">
+  <img alt="Backend" src="https://img.shields.io/badge/Backend-Flask-1f2937?style=for-the-badge&logo=flask&logoColor=white">
+  <img alt="Database" src="https://img.shields.io/badge/Database-Supabase-0f766e?style=for-the-badge&logo=supabase&logoColor=white">
+  <img alt="Speech" src="https://img.shields.io/badge/Speech-Deepgram-2563eb?style=for-the-badge">
+</p>
+
+## Overview
+
+VoiceScript AI is a full-stack speech-to-text web application that lets users:
+
+- sign in securely
+- record audio directly from the browser
+- upload audio files manually
+- transcribe speech using Deepgram
+- store transcripts and audio metadata in Supabase
+- review complete transcript history per user
+
+This project was built with a split deployment model:
+
+- `frontend` deployed on Vercel
+- `backend` deployed on Render
+
+## Live App
+
+- Production URL: [https://voicescript-ai.vercel.app/login](https://voicescript-ai.vercel.app/login)
 
 ## Features
 
-- User authentication with Supabase
-- Audio recording from browser microphone
+- Supabase authentication with protected routes
+- JWT-secured backend API access
+- Browser microphone recording
 - Audio file upload support
-- Deepgram transcription with keyword/name hints
-- Transcript history per user
+- Deepgram-powered transcription
+- Name and keyword hints for improved recognition
+- Per-user transcript history
 - Full transcript viewing from history
-- Audio file storage in Supabase
-- Frontend deployment on Vercel
-- Backend deployment on Render
+- Audio upload and persistence with Supabase Storage
+- Separate frontend/backend deployments
 
 ## Tech Stack
 
@@ -37,8 +63,8 @@ The project uses:
 - Flask
 - Python
 - Requests
-- Supabase Python SDK
 - Flask-CORS
+- Supabase Python SDK
 
 ### Services
 
@@ -48,6 +74,26 @@ The project uses:
 - Deepgram API
 - Vercel
 - Render
+
+## Architecture
+
+```text
+Browser
+   |
+   v
+Next.js Frontend (Vercel)
+   |
+   v
+Flask Backend (Render)
+   |
+   +--> Deepgram API
+   |
+   +--> Supabase Auth
+   |
+   +--> Supabase Database
+   |
+   +--> Supabase Storage
+```
 
 ## Project Structure
 
@@ -73,21 +119,21 @@ speech-to-text/
 1. The user signs in using Supabase Auth.
 2. The frontend records audio or accepts an uploaded file.
 3. The frontend sends the audio to the Flask backend.
-4. The backend verifies the user JWT.
+4. The backend verifies the JWT from the `Authorization` header.
 5. The backend sends the audio to Deepgram for transcription.
 6. The backend uploads the original audio to Supabase Storage.
 7. The backend saves transcript text, filename, audio URL, and `user_id` in Supabase.
-8. The frontend fetches transcript history and shows only the signed-in user's records.
+8. The frontend fetches transcript history and shows only the logged-in user's records.
 
 ## Authentication and Authorization
 
-This project uses JWT-based authentication via Supabase Auth.
+This project uses JWT-based authentication with Supabase Auth.
 
 - The frontend receives a Supabase access token after login.
 - API requests send the token as a bearer token.
 - The backend verifies the token using Supabase.
-- Transcript rows are associated with a `user_id`.
-- Supabase Row Level Security ensures users can only access their own transcripts.
+- Each transcript is linked to a `user_id`.
+- Supabase RLS policies ensure users can only read, insert, and delete their own transcripts.
 
 ## Environment Variables
 
@@ -169,7 +215,7 @@ This:
 
 ### Frontend on Vercel
 
-Configure:
+Configuration:
 
 - Root Directory: `frontend`
 - Framework Preset: `Next.js`
@@ -201,20 +247,20 @@ Environment variables:
 - Keep `SUPABASE_SERVICE_ROLE_KEY` only on the backend
 - Use Supabase RLS for per-user access control
 - Rotate secrets if exposed
-- Consider using private storage + signed URLs for stronger audio privacy
+- Consider private storage with signed URLs if transcript audio must stay non-public
 
 ## Known Limitations
 
-- Current transcription is request-based, not real-time streaming
+- Transcription is request-based, not real-time streaming
 - Public audio URLs may not be ideal for highly sensitive recordings
-- Old transcripts created before `user_id` support may need manual migration
+- Older transcripts created before `user_id` support may need manual reassignment
 
 ## Future Improvements
 
 - Real-time streaming transcription
 - Private storage with signed URLs
-- Better rate limiting and abuse protection
-- Transcript search and filtering
+- Rate limiting and abuse protection
+- Better search and filtering
 - Transcript export
 - Speaker diarization
 - Better formatting and summarization
